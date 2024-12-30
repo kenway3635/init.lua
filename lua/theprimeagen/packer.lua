@@ -32,5 +32,13 @@ return require('packer').startup(function(use)
   use({'hrsh7th/nvim-cmp'})
   use({'hrsh7th/cmp-nvim-lsp'})
   use({'ThePrimeagen/vim-be-good'})
+ fuse {
+      "danymat/neogen",
+      config = function()
+          require('neogen').setup {}
+      end,
+      -- Uncomment next line if you want to follow only stable versions
+      -- tag = "*"
+  }
 
 end)

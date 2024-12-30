@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 -- These are example language servers. 
 require('lspconfig').clangd.setup {
-cmd = {"/home/mint/.espressif/tools/esp-clang/16.0.1-fe4f10a809/esp-clang/bin/clangd","--query-driver=/home/mint/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/bin/xtensa-esp32-elf-gcc"}
+cmd = {"/home/mint/.espressif/tools/esp-clang/16.0.1-fe4f10a809/esp-clang/bin/clangd","--query-driver=/home/mint/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20230928/riscv32-esp-elf/lib/gcc"}
 }
 require'lspconfig'.pylsp.setup{
   settings = {
