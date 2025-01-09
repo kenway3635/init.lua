@@ -7,9 +7,12 @@ vim.api.nvim_set_keymap('n', '<Leader>nc', ":lua require('neogen').generate()<CR
 
 local i = require("neogen.types.template").item
 
+require('luasnip.loaders.from_vscode').lazy_load()
+
 require('neogen').setup {
     enabled = true,
     input_after_comment = false,
+    snippet_engine="luasnip",
     languages = {
         python = {
             template = {
@@ -33,9 +36,14 @@ require('neogen').setup {
                     { nil, '"""$1' },
                     { nil, "@brief explain"},
                     { nil, "" },
+                    {i.Parameter,"@param %s: explain",},
                     {
-                        i.Parameter,
-                        "@param %s: explain",
+                        {i.Type, i.Parameter },
+                        "@param %s %s: $1",
+                        {
+                            required = i.Tparam,
+                            type = { "func" },
+                        },
                     },
                     { i.ClassAttribute, "@param %s: $1" },
                     { i.Throw, "@raises %s: $1", { type = { "func" } } },

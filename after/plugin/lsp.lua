@@ -38,9 +38,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- You'll find a list of language servers here:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 -- These are example language servers. 
+
+-- clangd for c/c++
 require('lspconfig').clangd.setup {
 cmd = {"/home/mint/.espressif/tools/esp-clang/16.0.1-fe4f10a809/esp-clang/bin/clangd","--query-driver=/home/mint/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20230928/riscv32-esp-elf/lib/gcc"}
 }
+
+-- pylsp for python
 require'lspconfig'.pylsp.setup{
   settings = {
     pylsp = {
@@ -53,17 +57,70 @@ require'lspconfig'.pylsp.setup{
     }
   }
 }
+
+--bashls for bash
+--$ sudo npm i -g bash-language-server
+--install the newer nodejs to prevent install error
+--$ sudo dpkg --remove nodejs
+--$ sudo dpkg --remove --force-remove-reinstreq libnode-dev
+--$ sudo dpkg --remove --force-remove-reinstreq libnode72:amd64
+--https://askubuntu.com/questions/426750/how-can-i-update-my-nodejs-to-the-latest-version/548776#548776
+--# Using Ubuntu
+--$ curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+--$ sudo apt-get install -y nodejs
+-- setting : https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/bashls.lua#L2
+require'lspconfig'.bashls.setup{
+    filetypes = { "bash", "sh" },
+}
+
+
 local cmp = require('cmp')
+
+require('luasnip.loaders.from_vscode').lazy_load()
 
 cmp.setup({
   sources = {
     {name = 'nvim_lsp'},
+    {name = 'luasnip'},
   },
   snippet = {
     expand = function(args)
       -- You need Neovim v0.10 to use vim.snippet
-      vim.snippet.expand(args.body)
+      -- vim.snippet.expand(args.body)
+      require('luasnip').lsp_expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert({}),
+  mapping = cmp.mapping.preset.insert({
+      -- use enter to confirm selection
+      ['<CR>'] = cmp.mapping.confirm({select = true}), 
+
+      -- Super tab
+      ['<Tab>'] = cmp.mapping(function(fallback)
+          local luasnip = require('luasnip')
+          local col = vim.fn.col('.') - 1
+
+          if cmp.visible() then
+              cmp.select_next_item({behavior = 'select'})
+          elseif luasnip.expand_or_locally_jumpable() then
+              luasnip.expand_or_jump()
+          elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+              fallback()
+          else
+              cmp.complete()
+          end
+      end, {'i', 's'}),
+
+      -- Super shift tab
+      ['<S-Tab>'] = cmp.mapping(function(fallback)
+          local luasnip = require('luasnip')
+
+          if cmp.visible() then
+              cmp.select_prev_item({behavior = 'select'})
+          elseif luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+          else
+              fallback()
+          end
+      end, {'i', 's'}),
+  }),
 })
