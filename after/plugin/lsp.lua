@@ -49,9 +49,9 @@ require'lspconfig'.pylsp.setup{
   settings = {
     pylsp = {
       plugins = {
-        pycodestyle = {
-          ignore = {'W391'},
-          maxLineLength = 100
+          ruff = {
+            select = {"I", "N", "E", "W", "F", "PL", "TRY", "TC", "A"},
+            preview = true
         }
       }
     }
