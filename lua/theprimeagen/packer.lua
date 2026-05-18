@@ -56,5 +56,20 @@ return require('packer').startup(function(use)
           require('Comment').setup()
       end
   }
+  use {
+      "kawre/leetcode.nvim",
+      requires = {
+          'nvim-lua/plenary.nvim',
+          'MunifTanjim/nui.nvim',
+      },
+      run = ':TSUpdate html',
+      config = function()
+          require("leetcode").setup({
+              -- Your configuration goes here
+              -- arg = "...",
+              -- lang = "python",
+          })
+      end
+  }
 
 end)
