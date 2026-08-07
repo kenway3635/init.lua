@@ -40,11 +40,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- These are example language servers. 
 
 -- clangd for c/c++
-require('lspconfig').clangd.setup {
-}
+-- require('lspconfig').clangd.setup {
+vim.lsp.config('clangd.lua', {
+})
+vim.lsp.enable('clangd.lua')
 
 -- pylsp for python
-require'lspconfig'.pylsp.setup{
+-- require'lspconfig'.pylsp.setup{
+vim.lsp.config('pylsp.lua', {
   settings = {
     pylsp = {
       plugins = {
@@ -55,7 +58,8 @@ require'lspconfig'.pylsp.setup{
       }
     }
   }
-}
+})
+vim.lsp.enable('pylsp.lua')
 
 --bashls for bash
 --$ sudo npm i -g bash-language-server
@@ -68,9 +72,13 @@ require'lspconfig'.pylsp.setup{
 --$ curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 --$ sudo apt-get install -y nodejs
 -- setting : https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/bashls.lua#L2
-require'lspconfig'.bashls.setup{
-    filetypes = { "bash", "sh" },
-}
+-- require'lspconfig'.bashls.setup{
+--     filetypes = { "bash", "sh" },
+-- }
+vim.lsp.config('bashls.lua', {
+    filetypes = { "bash", "sh"}
+})
+vim.lsp.enable('bashls.lua')
 
 
 local cmp = require('cmp')
