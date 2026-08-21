@@ -41,13 +41,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 -- clangd for c/c++
 -- require('lspconfig').clangd.setup {
-vim.lsp.config('clangd.lua', {
+vim.lsp.config('clangd', {
 })
-vim.lsp.enable('clangd.lua')
+vim.lsp.enable('clangd')
+
+vim.lsp.config('rust_analyzer', {
+})
+vim.lsp.enable('rust_analyzer')
 
 -- pylsp for python
 -- require'lspconfig'.pylsp.setup{
-vim.lsp.config('pylsp.lua', {
+vim.lsp.config('pylsp', {
   settings = {
     pylsp = {
       plugins = {
@@ -59,7 +63,7 @@ vim.lsp.config('pylsp.lua', {
     }
   }
 })
-vim.lsp.enable('pylsp.lua')
+vim.lsp.enable('pylsp')
 
 --bashls for bash
 --$ sudo npm i -g bash-language-server
@@ -75,10 +79,10 @@ vim.lsp.enable('pylsp.lua')
 -- require'lspconfig'.bashls.setup{
 --     filetypes = { "bash", "sh" },
 -- }
-vim.lsp.config('bashls.lua', {
+vim.lsp.config('bashls', {
     filetypes = { "bash", "sh"}
 })
-vim.lsp.enable('bashls.lua')
+vim.lsp.enable('bashls')
 
 
 local cmp = require('cmp')
