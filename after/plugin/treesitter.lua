@@ -1,5 +1,5 @@
-require('nvim-treesitter').install {
-  "c", "python", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline",
+require('nvim-treesitter').setup{
+  "c", "rust", "python", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline",
 }
 
 vim.api.nvim_create_autocmd('FileType', {
